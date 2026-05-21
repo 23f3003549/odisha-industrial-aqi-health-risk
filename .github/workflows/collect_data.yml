@@ -1,0 +1,25 @@
+name: Collect AQI Data
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python src/collect_all_data.py
+        env:
+          WAQI_API_KEY: ${{ secrets.WAQI_API_KEY }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+      - run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add data/raw/
+          git commit -m "auto: hourly AQI collection" || exit 0
+          git push
