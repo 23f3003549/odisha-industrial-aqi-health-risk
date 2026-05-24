@@ -2,28 +2,66 @@ name: Collect AQI Data
 
 on:
   workflow_dispatch:
+
   schedule:
-    - cron: '0 * * * *'  # every hour
+    - cron: '0 * * * *'   # every hour
 
 permissions:
-  contents: write    
+  contents: write
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -r requirements.txt
-      - run: python src/collect_all_data.py
+
+      # Install dependencies
+      - name: Install Requirements
+        run: pip install -r requirements.txt
+
+      # Run AQI collection script
+      - name: Collect AQI Data
+        run: python src/collect_all_data.py
         env:
           WAQI_API_KEY: ${{ secrets.WAQI_API_KEY }}
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-      - run: |
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
-          git add data/raw/
-          git commit -m "auto: hourly AQI collection" || exit 0
+
+      # Debugging information
+      - name: Debug Files
+        run: |
+          echo "CURRENT DIRECTORY:"
+          pwd
+
+          echo "ALL FILES:"
+          find . -type f
+
+          echo "DATA DIRECTORY:"
+          ls -R data || echo "No data directory found"
+
+      # Git status before commit
+      - name: Check Git Status
+        run: git status
+
+      # Commit and push generated CSV files
+      - name: Commit and Push Data
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+          git add .
+
+          echo "GIT STATUS AFTER ADD:"
+          git status
+
+          git commit -m "auto: hourly AQI collection" || echo "No changes to commit"
+
           git push
