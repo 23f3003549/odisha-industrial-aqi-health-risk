@@ -3,35 +3,48 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from configs.config import CITIES, DATA_PATH , OPENWEATHER_API_KEY
+
+from configs.config import CITIES, DATA_PATH, OPENWEATHER_API_KEY
+
 
 def get_aqi_data(city, lat, lon):
 
-    url = (
+    # Air Pollution API
+    pollution_url = (
         f"https://api.openweathermap.org/data/2.5/air_pollution?"
         f"lat={lat}&lon={lon}&appid={OPENWEATHER_API_KEY}"
     )
 
+    # Weather API
+    weather_url = (
+        f"https://api.openweathermap.org/data/2.5/weather?"
+        f"lat={lat}&lon={lon}&appid={OPENWEATHER_API_KEY}&units=metric"
+    )
+
     try:
+        # API requests
+        pollution_response = requests.get(pollution_url)
+        weather_response = requests.get(weather_url)
 
-        response = requests.get(url)
+        pollution_data = pollution_response.json()
+        weather_data = weather_response.json()
 
-        data = response.json()
+        # Check valid responses
+        if "list" in pollution_data and "main" in weather_data:
 
-        if "list" in data:
-
-            pollution = data["list"][0]
-
+            pollution = pollution_data["list"][0]
             components = pollution["components"]
 
             result = {
                 "city": city,
                 "timestamp": datetime.now(),
 
-                # AQI scale 1-5
+                # AQI
                 "aqi": pollution["main"]["aqi"],
 
+                # Pollutants
                 "co": components.get("co"),
                 "no": components.get("no"),
                 "no2": components.get("no2"),
@@ -39,14 +52,29 @@ def get_aqi_data(city, lat, lon):
                 "so2": components.get("so2"),
                 "pm2_5": components.get("pm2_5"),
                 "pm10": components.get("pm10"),
-                "nh3": components.get("nh3")
+                "nh3": components.get("nh3"),
+
+                # Weather Metrics
+                "temperature": weather_data["main"].get("temp"),
+                "feels_like": weather_data["main"].get("feels_like"),
+                "humidity": weather_data["main"].get("humidity"),
+                "pressure": weather_data["main"].get("pressure"),
+
+                # Wind Metrics
+                "wind_speed": weather_data["wind"].get("speed"),
+                "wind_direction": weather_data["wind"].get("deg"),
+
+                # Weather Condition
+                "weather": weather_data["weather"][0].get("main"),
+                "weather_description": weather_data["weather"][0].get("description")
             }
 
             return result
 
         else:
             print(f"No data for {city}")
-            print(data)
+            print("Pollution API:", pollution_data)
+            print("Weather API:", weather_data)
             return None
 
     except Exception as e:
@@ -62,7 +90,7 @@ def collect_all_cities():
 
         lat, lon = coords
 
-        print(f"Fetching AQI for {city}...")
+        print(f"Fetching AQI + Weather for {city}...")
 
         data = get_aqi_data(city, lat, lon)
 
@@ -92,8 +120,6 @@ def collect_all_cities():
     else:
         print("No data collected")
         return None
-
-   
 
 
 if __name__ == "__main__":
