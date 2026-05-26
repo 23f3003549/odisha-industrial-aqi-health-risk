@@ -35,6 +35,13 @@ jobs:
           WAQI_API_KEY: ${{ secrets.WAQI_API_KEY }}
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
 
+      # Update master files after every collection
+      - name: Update Master Files
+        run: python src/data_manager.py
+        env:
+          WAQI_API_KEY: ${{ secrets.WAQI_API_KEY }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}    
+
       # Debugging information
       - name: Debug Files
         run: |
