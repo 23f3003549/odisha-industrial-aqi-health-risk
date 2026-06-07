@@ -99,6 +99,7 @@ city,timestamp,aqi,pm25,pm10,no2,so2,co,o3,dew,temperature,humidity,wind
 " GM Office, Brajrajnagar, India",2026-06-07T17:00:00+05:30,71,71,46,4.8,10.0,6.7,17.6,12.0,39.0,23.19,0.54
 " GM Office, Brajrajnagar, India",2026-06-07T18:00:00+05:30,71,71,46,4.8,10.0,6.4,17.6,15.0,37.0,31.935,0.05
 " GM Office, Brajrajnagar, India",2026-06-07T20:00:00+05:30,121,121,74,4.8,10.0,2.6,18.7,20.0,33.0,45.77,0.02
+" GM Office, Brajrajnagar, India",2026-06-08T02:00:00+05:30,87,87,57,4.7,10.1,2.4,18.0,18.0,32.0,63.66,0.17
 "Talcher Coalfields, Talcher, India",2026-05-21T19:00:00+05:30,79,69,79,9.2,4.4,10.5,2.6,23.8,34.6,23.616666666666664,2.793333333333333
 "Talcher Coalfields, Talcher, India",2026-05-21T19:00:00+05:30,80,24,80,9.4,4.4,10.3,2.2,23.8,34.6,28.290000000000003,2.2133333333333334
 "Talcher Coalfields, Talcher, India",2026-05-21T20:00:00+05:30,75,71,75,7.8,4.8,10.7,3.1,23.8,34.6,30.53,2.39
@@ -205,3 +206,4 @@ city,timestamp,aqi,pm25,pm10,no2,so2,co,o3,dew,temperature,humidity,wind
 "Talcher Coalfields, Talcher, India",2026-06-07T17:00:00+05:30,163,163,133,9.4,25.9,17.0,5.7,25.4,33.0,21.53,2.24
 "Talcher Coalfields, Talcher, India",2026-06-07T18:00:00+05:30,168,168,120,9.8,23.6,15.9,5.3,25.4,33.0,30.18,2.25
 "Talcher Coalfields, Talcher, India",2026-06-07T20:00:00+05:30,96,96,59,9.0,20.5,22.7,5.8,23.1,36.0,39.3,2.185
+"Talcher Coalfields, Talcher, India",2026-06-08T02:00:00+05:30,28,96,1,10.8,15.8,27.6,6.0,23.1,36.0,54.65,2.1
