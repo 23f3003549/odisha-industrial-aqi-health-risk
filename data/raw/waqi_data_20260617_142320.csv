@@ -1,0 +1,3 @@
+city,timestamp,aqi,pm25,pm10,no2,so2,co,o3,dew,temperature,humidity,wind
+"Talcher Coalfields, Talcher, India",2026-06-17T19:00:00+05:30,98,98,65,8.5,14.5,25.3,6.5,25.4,34.6,37.68,2.005
+" GM Office, Brajrajnagar, India",2026-06-17T19:00:00+05:30,55,55,31,8.1,10.0,4.6,18.1,25.0,27.0,69.565,0.44
